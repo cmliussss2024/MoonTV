@@ -6,11 +6,6 @@
       "name": "电影天堂资源",
       "detail": "http://caiji.dyttzyapi.com"
     },
-    "heimuer": {
-      "api": "https://json.heimuer.xyz/api.php/provide/vod",
-      "name": "黑木耳",
-      "detail": "https://heimuer.tv"
-    },
     "ruyi": {
       "api": "http://cj.rycjapi.com/api.php/provide/vod",
       "name": "如意资源"
@@ -80,10 +75,6 @@
     "lzi": {
       "api": "https://cj.lziapi.com/api.php/provide/vod",
       "name": "量子资源站"
-    },
-    "xiaomaomi": {
-      "api": "https://zy.xmm.hk/api.php/provide/vod",
-      "name": "小猫咪资源"
     },
     "tv1080zy": {
       "api": "https://api.1080zyku.com/inc/api_mac10.php",
@@ -245,11 +236,6 @@
       "name": "TV-魔都动漫",
       "detail": "https://caiji.moduapi.cc"
     },
-    "tvheimuer2": {
-      "api": "https://json02.heimuer.xyz/api.php/provide/vod",
-      "name": "TV-黑木耳点播",
-      "detail": "https://json02.heimuer.xyz"
-    },
     "av91md": {
       "api": "https://91md.me/api.php/provide/vod",
       "name": "AV-91麻豆",
@@ -325,11 +311,6 @@
       "name": "AV-色南国",
       "detail": "https://api.sexnguon.com"
     },
-    "avmaozy": {
-      "api": "https://api.maozyapi.com/inc/apijson_vod.php",
-      "name": "AV-色猫资源",
-      "detail": "https://api.maozyapi.com"
-    },
     "avapilj": {
       "api": "https://apilj.com/api.php/provide/vod",
       "name": "AV-辣椒资源",
@@ -371,14 +352,6 @@
       "api": "https://www.aiduanju.cc/",
       "name": "爱短剧.cc"
     },
-    "huaweiba": {
-      "api": "https://huawei8.live/api.php/provide/vod",
-      "name": "华为吧资源"
-    },
-    "taopian": {
-      "api": "https://taopianapi.com/cjapi/sda/vod",
-      "name": "淘片资源"
-    },
     "hongniuziyuan": {
       "api": "https://www.hongniuzy3.com/api.php/provide/vod",
       "name": "红牛资源"
@@ -387,18 +360,6 @@
       "api": "https://xsd.sdzyapi.com/api.php/provide/vod",
       "name": "索尼-闪电资源"
     },
-    "jinyingziyuan": {
-      "api": "https://jyzyapi.com/provide/vod",
-      "name": "金鹰资源采集网"
-    },
-    "fengchao": {
-      "api": "https://api.fczy888.me/api.php/provide/vod",
-      "name": "蜂巢片库"
-    },
-    "jinmaziyuan2": {
-      "api": "https://api.jmzy.com/api.php/provide/vod",
-      "name": "金马资源网"
-    },
     "dadiziy": {
       "api": "https://dadiapi.com/api.php/provide/vod",
       "name": "大地资源网络"
@@ -406,10 +367,6 @@
     "huangseziy": {
       "api": "https://hsckzy888.com/api.php/provide/vod",
       "name": "黄色资源啊啊"
-    },
-    "xiaojiziy": {
-      "api": "https://api.xiaojizy.live/provide/vod",
-      "name": "小鸡资源"
     },
     "kauicheziyuan": {
       "api": "https://caiji.kuaichezy.org/api.php/provide",
@@ -427,10 +384,6 @@
       "api": "https://api.yzzy-api.com/inc/ldg_api_all.php/provide/vod",
       "name": "优质资源库1080zyk6.com高清"
     },
-    "iqiyi": {
-      "api": "https://www.iqiyizyapi.com/api.php/provide/vod",
-      "name": "iqiyi资源"
-    },
     "xibaocaiji": {
       "api": "https://www.xxibaozyw.com/api.php/provide/vod",
       "name": "细胞采集黄色"
@@ -438,10 +391,6 @@
     "qiqiqiqi": {
       "api": "https://www.qiqidys.com/api.php/provide/vod",
       "name": "七七影视"
-    },
-    "fantuanyingshi": {
-      "api": "https://www.fantuan.tv/api.php/provide/vod",
-      "name": "饭团影视"
     }
   }
 }

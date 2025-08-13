@@ -18,40 +18,108 @@ def load_apis_from_config(config_path: str) -> Dict[str, dict]:
     
     return config
 
-def test_api(api_name: str, api_url: str, max_retries: int = 3) -> Tuple[str, str, bool, int]:
+def validate_api_response(data: dict) -> bool:
     """
-    测试单个API的可用性
+    验证API响应数据是否符合预期格式
+    """
+    # 检查是否包含必需的字段
+    if not isinstance(data, dict):
+        return False
+    
+    # 检查是否包含code字段且为成功状态
+    if 'code' in data and data['code'] != 1 and data['code'] != 200:
+        return False
+    
+    # 检查是否包含必要的数据字段
+    if 'list' in data:
+        # 列表形式的响应
+        if not isinstance(data['list'], list):
+            return False
+        # 如果有数据，检查第一条记录的基本字段
+        if len(data['list']) > 0:
+            first_item = data['list'][0]
+            required_fields = ['vod_id', 'vod_name']
+            for field in required_fields:
+                if field not in first_item:
+                    # 尝试其他可能的字段名
+                    alt_fields = {
+                        'vod_id': ['id', 'video_id'],
+                        'vod_name': ['name', 'title']
+                    }
+                    found = False
+                    for alt_field in alt_fields.get(field, []):
+                        if alt_field in first_item:
+                            found = True
+                            break
+                    if not found:
+                        return False
+    elif 'data' in data:
+        # 数据形式的响应
+        if not isinstance(data['data'], (list, dict)):
+            return False
+    else:
+        # 其他可能的格式，至少应该有一些内容
+        if len(data) == 0:
+            return False
+    
+    return True
+
+def test_api(api_name: str, api_url: str, max_retries: int = 3) -> Tuple[str, str, bool, int, str]:
+    """
+    测试单个API的有效性
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
     }
     
+    # 构造测试URL，尝试获取部分数据
+    # 大多数CMS API支持limit参数来限制返回数量
+    test_urls = [
+        f"{api_url}?ac=detail&limit=1",  # 获取单个视频详情
+        f"{api_url}?ac=list&limit=1",    # 获取视频列表
+        f"{api_url}?limit=1",            # 简单限制
+        api_url                          # 原始URL
+    ]
+    
     for attempt in range(max_retries):
-        try:
-            # 发送GET请求
-            response = requests.get(
-                api_url, 
-                headers=headers, 
-                timeout=10,
-                verify=False  # 禁用SSL验证以避免证书问题
-            )
-            
-            # 如果响应码为200，认为API可用
-            if response.status_code == 200:
-                return api_name, api_url, True, response.status_code
-            
-            # 如果不是最后一次尝试，等待一段时间再重试
-            if attempt < max_retries - 1:
-                time.sleep(1)
+        for test_url in test_urls:
+            try:
+                # 发送GET请求
+                response = requests.get(
+                    test_url, 
+                    headers=headers, 
+                    timeout=15,  # 增加超时时间
+                    verify=False  # 禁用SSL验证以避免证书问题
+                )
                 
-        except Exception as e:
-            # 如果不是最后一次尝试，等待一段时间再重试
-            if attempt < max_retries - 1:
-                time.sleep(1)
-            continue
+                # 如果响应码为200，进一步检查内容
+                if response.status_code == 200:
+                    try:
+                        # 尝试解析JSON
+                        data = response.json()
+                        
+                        # 验证响应数据格式
+                        if validate_api_response(data):
+                            return api_name, test_url, True, response.status_code, "有效"
+                        else:
+                            # 数据格式不正确
+                            continue
+                    except json.JSONDecodeError:
+                        # 不是有效的JSON，尝试下一个URL
+                        continue
+                
+                # 如果不是最后一次尝试，等待一段时间再重试
+                if attempt < max_retries - 1:
+                    time.sleep(1)
+                    
+            except Exception as e:
+                # 如果不是最后一次尝试，等待一段时间再重试
+                if attempt < max_retries - 1:
+                    time.sleep(1)
+                continue
     
     # 所有尝试都失败了
-    return api_name, api_url, False, response.status_code if 'response' in locals() else -1
+    return api_name, api_url, False, response.status_code if 'response' in locals() else -1, str(e) if 'e' in locals() else "请求失败"
 
 def remove_unavailable_apis(config: dict, unavailable_apis: List[str]) -> dict:
     """
@@ -92,7 +160,7 @@ def main():
     results = []
     
     # 使用线程池并发测试所有API
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:  # 减少并发数以避免被限制
         # 提交所有任务
         future_to_api = {
             executor.submit(test_api, name, url): (name, url) 
@@ -107,7 +175,7 @@ def main():
                 results.append(result)
             except Exception as e:
                 print(f"测试 {name} 时发生错误: {e}")
-                results.append((name, url, False, -1))
+                results.append((name, url, False, -1, str(e)))
     
     # 分析结果
     available_count = sum(1 for r in results if r[2])
@@ -121,29 +189,29 @@ def main():
     available_apis = [r for r in results if r[2]]
     unavailable_apis = [r for r in results if not r[2]]
     
-    print(f"\n可用API ({available_count}个):")
+    print(f"\n有效API ({available_count}个):")
     print("-" * 40)
-    for name, url, available, status_code in available_apis:
+    for name, url, available, status_code, message in available_apis:
         print(f"✓ {name}: {url} (状态码: {status_code})")
     
-    print(f"\n不可用API ({unavailable_count}个):")
+    print(f"\n无效API ({unavailable_count}个):")
     print("-" * 40)
-    for name, url, available, status_code in unavailable_apis:
+    for name, url, available, status_code, message in unavailable_apis:
         if status_code == -1:
-            print(f"✗ {name}: {url} (请求失败)")
+            print(f"✗ {name}: {url} (错误: {message})")
         else:
-            print(f"✗ {name}: {url} (状态码: {status_code})")
+            print(f"✗ {name}: {url} (状态码: {status_code}, 错误: {message})")
     
-    print(f"\n总结: {available_count}/{len(results)} 个API可用")
+    print(f"\n总结: {available_count}/{len(results)} 个API有效")
     
-    # 询问是否移除不可用的API
+    # 询问是否移除无效的API
     if unavailable_count > 0:
-        choice = input(f"\n是否要从 {config_path} 中移除这 {unavailable_count} 个不可用的API? (y/N): ")
+        choice = input(f"\n是否要从 {config_path} 中移除这 {unavailable_count} 个无效的API? (y/N): ")
         if choice.lower() in ['y', 'yes']:
-            # 获取不可用API的名称列表
+            # 获取无效API的名称列表
             unavailable_api_names = [r[0] for r in unavailable_apis]
             
-            # 移除不可用的API
+            # 移除无效的API
             updated_config = remove_unavailable_apis(config, unavailable_api_names)
             
             # 备份原配置文件
@@ -156,11 +224,11 @@ def main():
             with open(config_path, 'w', encoding='utf-8') as f:
                 json.dump(updated_config, f, ensure_ascii=False, indent=2)
             
-            print(f"已从配置文件中移除 {unavailable_count} 个不可用的API")
+            print(f"已从配置文件中移除 {unavailable_count} 个无效的API")
         else:
             print("未执行移除操作")
     else:
-        print("\n所有API均可用，无需清理")
+        print("\n所有API均有效，无需清理")
 
 if __name__ == "__main__":
     main()

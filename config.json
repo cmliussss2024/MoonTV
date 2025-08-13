@@ -534,15 +534,15 @@
       "name": "细胞采集黄色"
     },
     "qiqiqiqi": {
-      "api": "https://www.qiqidys.com/api.php/provide/vod/",
+      "api": "https://www.qiqidys.com/api.php/provide/vod",
       "name": "七七影视"
     },
     "yingshigongchang": {
-      "api": "https://cj.lziapi.com/api.php/provide/vod/",
+      "api": "https://cj.lziapi.com/api.php/provide/vod",
       "name": "影视工厂"
     },
     "fantuanyingshi": {
-      "api": "https://www.fantuan.tv/api.php/provide/vod/",
+      "api": "https://www.fantuan.tv/api.php/provide/vod",
       "name": "饭团影视"
     }
   }

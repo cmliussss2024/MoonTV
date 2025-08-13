@@ -64,7 +64,37 @@ def validate_api_response(data: dict) -> bool:
     
     return True
 
-def test_api(api_name: str, api_url: str, max_retries: int = 3) -> Tuple[str, str, bool, int, str]:
+def remove_duplicate_apis(config: dict) -> Tuple[dict, List[Tuple[str, str]]]:
+    """
+    从配置中移除重复的API URL，保留首次出现的API
+    返回去重后的配置和被移除的API列表
+    """
+    api_sites = config.get('api_site', {})
+    seen_urls = {}
+    removed_apis = []
+    
+    # 创建新的api_site字典，只保留首次出现的API
+    new_api_sites = {}
+    for name, value in api_sites.items():
+        if 'api' in value:
+            api_url = value['api']
+            if api_url in seen_urls:
+                # 发现重复的API
+                removed_apis.append((name, api_url))
+                print(f"已识别重复的API: {name} -> {api_url} (首次出现在: {seen_urls[api_url]})")
+            else:
+                # 首次出现的API
+                seen_urls[api_url] = name
+                new_api_sites[name] = value
+        else:
+            # 没有api字段的配置也保留
+            new_api_sites[name] = value
+    
+    # 更新配置
+    config['api_site'] = new_api_sites
+    return config, removed_apis
+
+def test_api(api_name: str, api_url: str, max_retries: int = 2) -> Tuple[str, str, bool, int, str]:
     """
     测试单个API的有效性
     """
@@ -88,7 +118,7 @@ def test_api(api_name: str, api_url: str, max_retries: int = 3) -> Tuple[str, st
                 response = requests.get(
                     test_url, 
                     headers=headers, 
-                    timeout=15,  # 增加超时时间
+                    timeout=10,  # 设置超时时间
                     verify=False  # 禁用SSL验证以避免证书问题
                 )
                 
@@ -110,12 +140,12 @@ def test_api(api_name: str, api_url: str, max_retries: int = 3) -> Tuple[str, st
                 
                 # 如果不是最后一次尝试，等待一段时间再重试
                 if attempt < max_retries - 1:
-                    time.sleep(1)
+                    time.sleep(0.5)
                     
             except Exception as e:
                 # 如果不是最后一次尝试，等待一段时间再重试
                 if attempt < max_retries - 1:
-                    time.sleep(1)
+                    time.sleep(0.5)
                 continue
     
     # 所有尝试都失败了
@@ -146,8 +176,33 @@ def main():
     
     # 从配置文件加载API列表
     config = load_apis_from_config(config_path)
-    api_sites = config.get('api_site', {})
     
+    # 去重处理
+    print("开始进行API去重处理...")
+    deduplicated_config, removed_apis = remove_duplicate_apis(config)
+    if removed_apis:
+        print(f"识别并移除了 {len(removed_apis)} 个重复的API")
+        # 询问是否保存去重后的配置
+        choice = input(f"\n是否要将去重后的配置保存到 {config_path} ? (y/N): ")
+        if choice.lower() in ['y', 'yes']:
+            # 备份原配置文件
+            backup_path = f"{config_path}.backup"
+            with open(backup_path, 'w', encoding='utf-8') as f:
+                json.dump(config, f, ensure_ascii=False, indent=2)
+            print(f"原配置已备份至: {backup_path}")
+            
+            # 保存去重后的配置
+            with open(config_path, 'w', encoding='utf-8') as f:
+                json.dump(deduplicated_config, f, ensure_ascii=False, indent=2)
+            print(f"已将去重后的配置保存到 {config_path}")
+            # 使用去重后的配置继续测试
+            config = deduplicated_config
+        else:
+            print("未执行去重配置保存操作，将使用原始配置进行测试")
+    else:
+        print("未发现重复的API")
+    
+    api_sites = config.get('api_site', {})
     apis = {}
     for key, value in api_sites.items():
         if 'api' in value:
@@ -158,9 +213,11 @@ def main():
     
     # 存储结果
     results = []
+    available_count = 0
+    unavailable_count = 0
     
-    # 使用线程池并发测试所有API
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:  # 减少并发数以避免被限制
+    # 使用线程池并发测试所有API，增加工作线程数以提高速度
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:  # 增加并发数以提高测试速度
         # 提交所有任务
         future_to_api = {
             executor.submit(test_api, name, url): (name, url) 
@@ -173,16 +230,27 @@ def main():
             try:
                 result = future.result()
                 results.append(result)
+                # 实时输出结果
+                if result[2]:  # API有效
+                    print(f"✓ {name}: {result[3]} (状态码: {result[3]})")
+                    available_count += 1
+                else:  # API无效
+                    if result[3] == -1:
+                        print(f"✗ {name}: {result[4]} (错误: {result[4]})")
+                    else:
+                        print(f"✗ {name}: {result[3]} (状态码: {result[3]}, 错误: {result[4]})")
+                    unavailable_count += 1
             except Exception as e:
                 print(f"测试 {name} 时发生错误: {e}")
                 results.append((name, url, False, -1, str(e)))
+                unavailable_count += 1
+                
+    # 输出最终统计
+    print("\n" + "=" * 80)
+    print(f"测试完成: {available_count}/{len(results)} 个API有效")
     
-    # 分析结果
-    available_count = sum(1 for r in results if r[2])
-    unavailable_count = len(results) - available_count
-    
-    # 输出结果
-    print("\n测试结果:")
+    # 详细结果
+    print("\n详细结果:")
     print("=" * 80)
     
     # 按可用性分组

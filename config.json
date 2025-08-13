@@ -367,6 +367,27 @@
     "xibaocaiji": {
       "api": "https://www.xxibaozyw.com/api.php/provide/vod",
       "name": "细胞采集黄色"
+    },
+    "冷视tv普": {
+      "api": "https://len.tv/api.php/v1.vod",
+      "name": "冷视TV(普)",
+      "detail": "https://len.tv"
+    },
+    "量子资源": {
+      "api": "http://cj.lziapi.com/api.php/provide/vod",
+      "name": "量子资源"
+    },
+    "闪电资源": {
+      "api": "http://sdzyapi.com/api.php/provide/vod",
+      "name": "闪电资源"
+    },
+    "新浪资源": {
+      "api": "http://api.xinlangapi.com/xinlangapi.php/provide/vod",
+      "name": "新浪资源"
+    },
+    "非凡资源": {
+      "api": "http://cj.ffzyapi.com/api.php/provide/vod",
+      "name": "非凡资源"
     }
   }
 }

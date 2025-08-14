@@ -388,6 +388,11 @@
     "非凡资源": {
       "api": "http://cj.ffzyapi.com/api.php/provide/vod",
       "name": "非凡资源"
+    },
+    "xmm.hk": {
+      "name": "TV-小猫咪资源",
+      "api": "https://zy.xmm.hk/api.php/provide/vod",
+      "detail": "https://zy.xmm.hk"
     }
   }
 }

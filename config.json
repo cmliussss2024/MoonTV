@@ -78,7 +78,7 @@
     },
     "tv1080zy": {
       "api": "https://api.1080zyku.com/inc/api_mac10.php",
-      "name": "TV-1080资源",
+      "name": "1080资源",
       "detail": "https://api.1080zyku.com"
     },
     "av155zy": {
@@ -88,77 +88,77 @@
     },
     "tvckzy": {
       "api": "https://ckzy.me/api.php/provide/vod",
-      "name": "TV-CK资源",
+      "name": "CK资源",
       "detail": "https://ckzy.me"
     },
     "tvuku1": {
       "api": "https://api.ukuapi.com/api.php/provide/vod",
-      "name": "TV-U酷资源",
+      "name": "U酷资源",
       "detail": "https://api.ukuapi.com"
     },
     "tvuku2": {
       "api": "https://api.ukuapi88.com/api.php/provide/vod",
-      "name": "TV-U酷资源2",
+      "name": "U酷资源2",
       "detail": "https://api.ukuapi88.com"
     },
     "tvwujin1": {
       "api": "https://api.wujinapi.cc/api.php/provide/vod",
-      "name": "TV-wujinapi无尽",
+      "name": "wujinapi无尽",
       "detail": ""
     },
     "tvyaya": {
       "api": "https://cj.yayazy.net/api.php/provide/vod",
-      "name": "TV-丫丫点播",
+      "name": "丫丫点播",
       "detail": "https://cj.yayazy.net"
     },
     "tvguangsu": {
       "api": "https://api.guangsuapi.com/api.php/provide/vod",
-      "name": "TV-光速资源",
+      "name": "光速资源",
       "detail": "https://api.guangsuapi.com"
     },
     "tvwolong1": {
       "api": "https://collect.wolongzyw.com/api.php/provide/vod",
-      "name": "TV-卧龙点播",
+      "name": "卧龙点播",
       "detail": "https://collect.wolongzyw.com"
     },
     "tvwolong2": {
       "api": "https://collect.wolongzy.cc/api.php/provide/vod",
-      "name": "TV-卧龙资源",
+      "name": "卧龙资源",
       "detail": ""
     },
     "tvxinlang": {
       "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod",
-      "name": "TV-新浪点播",
+      "name": "新浪点播",
       "detail": "https://api.xinlangapi.com"
     },
     "tvwujin2": {
       "api": "https://api.wujinapi.com/api.php/provide/vod",
-      "name": "TV-无尽资源2",
+      "name": "无尽资源2",
       "detail": ""
     },
     "tvwujin3": {
       "api": "https://api.wujinapi.net/api.php/provide/vod",
-      "name": "TV-无尽资源3",
+      "name": "无尽资源3",
       "detail": ""
     },
     "tvwwzy2": {
       "api": "https://api.wwzy.tv/api.php/provide/vod",
-      "name": "TV-旺旺资源",
+      "name": "旺旺资源",
       "detail": "https://api.wwzy.tv"
     },
     "tvzuid1": {
       "api": "http://zuidazy.me/api.php/provide/vod",
-      "name": "TV-最大点播",
+      "name": "最大点播",
       "detail": "http://zuidazy.me"
     },
     "tvbubu": {
       "api": "https://api.yparse.com/api/json",
-      "name": "TV-步步高资源",
+      "name": "步步高资源",
       "detail": ""
     },
     "tvniuniu": {
       "api": "https://api.niuniuzy.me/api.php/provide/vod",
-      "name": "TV-牛牛点播",
+      "name": "牛牛点播",
       "detail": "https://api.niuniuzy.me"
     },
     "avbwzy": {
@@ -166,74 +166,74 @@
       "name": "AV-百万资源",
       "detail": "https://api.bwzyz.com"
     },
-    "tvbdzy": {
+    "bdzy": {
       "api": "https://api.apibdzy.com/api.php/provide/vod",
-      "name": "TV-百度云资源",
+      "name": "百度云资源",
       "detail": "https://api.apibdzy.com"
     },
     "tv1080zy2": {
       "api": "https://api.1080zyku.com/inc/apijson.php/",
-      "name": "TV-神马云",
+      "name": "神马云",
       "detail": "https://api.1080zyku.com"
     },
     "tvsuoni": {
       "api": "https://suoniapi.com/api.php/provide/vod",
-      "name": "TV-索尼资源",
+      "name": "索尼资源",
       "detail": ""
     },
     "tvhongniu": {
       "api": "https://www.hongniuzy2.com/api.php/provide/vod",
-      "name": "TV-红牛资源",
+      "name": "红牛资源",
       "detail": "https://www.hongniuzy2.com"
     },
     "tvhuya": {
       "api": "https://www.huyaapi.com/api.php/provide/vod",
-      "name": "TV-虎牙资源",
+      "name": "虎牙资源",
       "detail": "https://www.huyaapi.com"
     },
     "tvdb1": {
       "api": "https://caiji.dbzy.tv/api.php/provide/vod",
-      "name": "TV-豆瓣资源",
+      "name": "豆瓣资源",
       "detail": "https://caiji.dbzy.tv"
     },
     "tvhhzy": {
       "api": "https://hhzyapi.com/api.php/provide/vod",
-      "name": "TV-豪华资源",
+      "name": "豪华资源",
       "detail": "https://hhzyapi.com"
     },
     "tvsubo": {
       "api": "https://subocaiji.com/api.php/provide/vod",
-      "name": "TV-速博资源",
+      "name": "速博资源",
       "detail": ""
     },
     "tvjinying1": {
       "api": "https://jinyingzy.com/api.php/provide/vod",
-      "name": "TV-金鹰点播",
+      "name": "金鹰点播",
       "detail": "https://jinyingzy.com"
     },
     "tvjinying2": {
       "api": "https://jyzyapi.com/api.php/provide/vod",
-      "name": "TV-金鹰资源",
+      "name": "金鹰资源",
       "detail": "https://jyzyapi.com"
     },
     "tvsdzy": {
       "api": "https://sdzyapi.com/api.php/provide/vod",
-      "name": "TV-閃電资源",
+      "name": "閃電资源",
       "detail": "https://sdzyapi.com"
     },
     "tvffzy": {
       "api": "https://cj.ffzyapi.com/api.php/provide/vod",
-      "name": "TV-非凡资源",
+      "name": "非凡资源",
       "detail": "https://cj.ffzyapi.com"
     },
     "tvpiaoling": {
       "api": "https://p2100.net/api.php/provide/vod",
-      "name": "TV-飘零资源",
+      "name": "飘零资源",
       "detail": "https://p2100.net"
     },
     "tvmodu": {
       "api": "https://caiji.moduapi.cc/api.php/provide/vod",
-      "name": "TV-魔都动漫",
+      "name": "魔都动漫",
       "detail": "https://caiji.moduapi.cc"
     },
     "av91md": {
@@ -389,8 +389,8 @@
       "api": "http://cj.ffzyapi.com/api.php/provide/vod",
       "name": "非凡资源"
     },
-    "xmm.hk": {
-      "name": "TV-小猫咪资源",
+    "xiaomaomi": {
+      "name": "小猫咪资源",
       "api": "https://zy.xmm.hk/api.php/provide/vod",
       "detail": "https://zy.xmm.hk"
     }

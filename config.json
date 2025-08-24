@@ -292,6 +292,26 @@
       "name": "Mursor",
       "url": "https://sub.ottiptv.cc/iptv.m3u",
       "ua": "okHttp/Mod-1.1.0"
+    },
+    "huya": {
+      "name": "虎牙直播",
+      "url": "https://sub.ottiptv.cc/huyayqk.m3u",
+      "ua": "okHttp/Mod-1.1.0"
+    },
+    "douyu": {
+      "name": "抖音直播",
+      "url": "https://sub.ottiptv.cc/douyuyqk.m3u",
+      "ua": "okHttp/Mod-1.1.0"
+    },
+    "yylunbo": {
+      "name": "YY轮播",
+      "url": "https://sub.ottiptv.cc/yylunbo.m3u",
+      "ua": "okHttp/Mod-1.1.0"
+    },
+    "bililive": {
+      "name": "B站直播",
+      "url": "https://sub.ottiptv.cc/bililive.m3u",
+      "ua": "okHttp/Mod-1.1.0"
     }
   }
 }
